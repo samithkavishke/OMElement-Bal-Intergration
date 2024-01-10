@@ -1,9 +1,13 @@
 package org.example;
 
+import io.ballerina.runtime.api.values.BString;
+import io.ballerina.runtime.api.values.BXml;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
+
+import java.util.Iterator;
 
 public class Main {
 
@@ -24,16 +28,19 @@ public class Main {
         OMElement childElement2 = factory.createOMElement("child2", namespace);
         childElement2.setText("World");
 
-        OMElement childElement3 = factory.createOMElement("child3", namespace);
-
-
         rootElement.addChild(childElement1);
         rootElement.addChild(childElement2);
 
-        System.out.println(childElement1.getType());
-        System.out.println(rootElement.getType());
+        System.out.println(OMElementConverter.getXmlItem(rootElement));
+        Iterator iterator = rootElement.getChildElements();
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+//        System.out.println(rootElement.getChildElements().next());
 
 //        System.out.println(rootElement);
+
+//        System.out.println(rootElement.getChildElements());
     }
+
 
 }
