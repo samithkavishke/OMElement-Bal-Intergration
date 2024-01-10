@@ -1,7 +1,5 @@
 package org.example;
 
-import io.ballerina.runtime.api.values.BString;
-import io.ballerina.runtime.api.values.BXml;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
@@ -32,9 +30,10 @@ public class Main {
         rootElement.addChild(childElement2);
 
         System.out.println(OMElementConverter.getXmlItem(rootElement));
-        Iterator iterator = rootElement.getChildElements();
-        System.out.println(iterator.next());
-        System.out.println(iterator.next());
+        System.out.println(rootElement);
+//        Iterator iterator = rootElement.getChildElements();
+//        System.out.println(iterator.next());
+//        System.out.println(iterator.next());
 //        System.out.println(rootElement.getChildElements().next());
 
 //        System.out.println(rootElement);
