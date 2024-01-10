@@ -5,7 +5,6 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
 
-import java.util.Iterator;
 
 public class Main {
 
