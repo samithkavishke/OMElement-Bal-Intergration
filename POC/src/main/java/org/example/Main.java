@@ -5,7 +5,6 @@ import org.apache.axiom.om.*;
 import io.ballerina.runtime.api.utils.StringUtils;
 import org.junit.Assert;
 
-import java.util.Iterator;
 
 
 public class Main {
