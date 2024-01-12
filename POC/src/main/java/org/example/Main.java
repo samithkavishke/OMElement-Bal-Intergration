@@ -102,17 +102,40 @@ public class Main {
 //
 //        factory.createOMDocType(rootElement, "root", "http://example.com", "root.dtd", null);
 
-        OMFactory factory = OMAbstractFactory.getOMFactory();
-        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
-        OMElement rootElement = factory.createOMElement("root", namespace);
-        OMElement childElement1 = factory.createOMElement("child1", namespace);
-        childElement1.setText("Hello");
-        OMElement childElement2 = factory.createOMElement("child2", namespace);
-        childElement2.setText("World");
-        rootElement.addChild(childElement1);
-        rootElement.addChild(childElement2);
-        BXml bXml = OMElementConverter.toBXml(rootElement);
-        System.out.println(bXml.children().size());
+//        OMFactory factory = OMAbstractFactory.getOMFactory();
+//        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+//        OMElement rootElement = factory.createOMElement("root", namespace);
+//        OMElement childElement1 = factory.createOMElement("child1", namespace);
+//        childElement1.setText("Hello");
+//        OMElement childElement2 = factory.createOMElement("child2", namespace);
+//        childElement2.setText("World");
+//        rootElement.addChild(childElement1);
+//        rootElement.addChild(childElement2);
+//        BXml bXml = OMElementConverter.toBXml(rootElement);
+//        System.out.println(bXml.children().size());
+
+//        OMFactory factory = OMAbstractFactory.getOMFactory();
+//        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+//        OMElement rootElement = factory.createOMElement("root", namespace);
+//        OMText cdata = factory.createOMText(rootElement, "This is a CDATA", OMNode.CDATA_SECTION_NODE);
+//        System.out.println(cdata.getType());
+//        rootElement.addChild(cdata);
+//        BXml bXml = OMElementConverter.toBXml(rootElement);
+
+//        OMFactory factory = OMAbstractFactory.getOMFactory();
+//        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+//        OMElement rootElement = factory.createOMElement("root", namespace);
+//        factory.createOMDocType(rootElement, "root", "http://example.com", "root.dtd", null);
+//        BXml bXml = OMElementConverter.toBXml(rootElement);
+//        System.out.println(bXml);
+//
+//        OMFactory factory = OMAbstractFactory.getOMFactory();
+//        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+//        OMElement rootElement = factory.createOMElement("root", namespace);
+//        OMEntityReference entityReference = factory.createOMEntityReference(rootElement, "entity");
+//        rootElement.addChild(entityReference);
+//        BXml bXml = OMElementConverter.toBXml(rootElement);
+//        System.out.println(bXml);
     }
 
 

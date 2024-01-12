@@ -26,11 +26,12 @@ public class OMElementConverter {
             } else if (omNode.getType() == OMNode.SPACE_NODE) {
                 return getXmlText((OMText) omNode);
             } else if (omNode.getType() == OMNode.CDATA_SECTION_NODE) {
-                // check whether there is any other conversion
-                return getXmlText((OMText) omNode);
+                return getXmlCData((OMText) omNode);
             } else if (omNode.getType() == OMNode.DTD_NODE){
+                // cannot occur
                 return null;
             } else if (omNode.getType() == OMNode.ENTITY_REFERENCE_NODE){
+                // cannot occur
                 return null;
             }
             return null;
@@ -39,9 +40,7 @@ public class OMElementConverter {
             QName qName = new QName(omElement.getNamespaceURI(),omElement.getLocalName());
             BXmlItem xmlItem = ValueCreator.createXmlItem(qName, false);
 
-//            BXml bXmlText = ValueCreator.createXmlText(StringUtils.fromString(omElement.getText()));
             ArrayList<BXml> xmlList = new ArrayList<>();
-//            xmlList.add(bXmlText);
 
             var iterator = omElement.getDescendants(false);
 
@@ -50,9 +49,6 @@ public class OMElementConverter {
                 if (childNode.getParent() == omElement) {
                     BXml childXml = toBXml(childNode);
 
-//                OMElement childElement = (OMElement) iterator.next();
-
-//                BXml childXml = getXmlItem(childElement);
                     xmlList.add(childXml);
                 }
 
@@ -74,16 +70,8 @@ public class OMElementConverter {
             return ValueCreator.createXmlComment(StringUtils.fromString(omComment.getValue()));
         }
 
-        private static BXml getXmlSequence(OMElement omElement) {
-            ArrayList<BXml> xmlList = new ArrayList<>();
-            var iterator = omElement.getChildElements();
-
-            while  (iterator.hasNext()){
-                OMElement childElement = (OMElement) iterator.next();
-
-                BXml childXml = getXmlItem(childElement);
-                xmlList.add(childXml);
-            }
-            return ValueCreator.createXmlSequence(xmlList);
+        private static BXml getXmlCData(OMText omText) {
+            String text ="<![CDATA[" +omText.getText()+"]]>";
+            return ValueCreator.createXmlText(StringUtils.fromString(text));
         }
 }
