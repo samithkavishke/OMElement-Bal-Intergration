@@ -4,7 +4,9 @@ import org.example.OMElementConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class OMConverterTest {
+import java.io.*;
+
+public class OMElementConverterTest {
     @Test
     public void testOMElementToBXmlWithText() {
         OMFactory factory = OMAbstractFactory.getOMFactory();
@@ -55,6 +57,71 @@ public class OMConverterTest {
         rootElement.addChild(cdata);
         BXml bXml = OMElementConverter.toBXml(rootElement);
         Assertions.assertEquals(bXml.children().size(), 1);
-        Assertions.assertEquals(bXml.children().getItem(0).toString(), "&lt;![CDATA[This is a CDATA]]&gt;");
+        Assertions.assertEquals(bXml.children().getItem(0).toString(), "This is a CDATA");
+    }
+
+    @Test
+    public void testOMElementWithMoreLevels(){
+        try {
+            File xmlFile = new File("src/test/resources/testOMElementWithMoreLevels.xml");
+            FileInputStream fileInputStream = new FileInputStream(xmlFile);
+            OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
+            OMElement rootElement = builder.getDocumentElement();
+
+             Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), rootElement.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testBXmlWithMoreCData(){
+        try {
+            File xmlFile = new File("src/test/resources/testBxmlWithMoreCData.xml");
+            FileInputStream fileInputStream = new FileInputStream(xmlFile);
+            OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
+            OMElement rootElement = builder.getDocumentElement();
+
+            File textFile = new File("src/test/resources/testBxmlWithMoreCData.txt");
+            FileInputStream textInputStream = new FileInputStream(textFile);
+            byte[] data = new byte[(int) textFile.length()];
+            textInputStream.read(data);
+            textInputStream.close();
+            String text = new String(data, "UTF-8");
+
+            Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), text);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testBXmlWithAll(){
+        try {
+            File xmlFile = new File("src/test/resources/testBxmlWithAll.xml");
+            FileInputStream fileInputStream = new FileInputStream(xmlFile);
+            OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
+            OMElement rootElement = builder.getDocumentElement();
+
+            File textFile = new File("src/test/resources/testBxmlWithAll.txt");
+            FileInputStream textInputStream = new FileInputStream(textFile);
+            byte[] data = new byte[(int) textFile.length()];
+            textInputStream.read(data);
+            textInputStream.close();
+            String text = new String(data, "UTF-8");
+
+            Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), text);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

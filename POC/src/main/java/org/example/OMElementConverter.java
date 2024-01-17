@@ -40,18 +40,26 @@ public class OMElementConverter {
             QName qName = new QName(omElement.getNamespaceURI(),omElement.getLocalName());
             BXmlItem xmlItem = ValueCreator.createXmlItem(qName, false);
 
+            var attributes = omElement.getAllAttributes();
+
+            BMap bMap = ValueCreator.createMapValue();
+            while(attributes.hasNext()){
+                OMAttribute attribute = (OMAttribute) attributes.next();
+                bMap.put(StringUtils.fromString(attribute.getLocalName()), StringUtils.fromString(attribute.getAttributeValue()));
+
+            }
+            xmlItem.setAttributes(bMap);
+
             ArrayList<BXml> xmlList = new ArrayList<>();
+            var descendants = omElement.getDescendants(false);
 
-            var iterator = omElement.getDescendants(false);
-
-            while  (iterator.hasNext()){
-                OMNode childNode = (OMNode) iterator.next();
+            while  (descendants.hasNext()){
+                OMNode childNode = (OMNode) descendants.next();
                 if (childNode.getParent() == omElement) {
                     BXml childXml = toBXml(childNode);
 
                     xmlList.add(childXml);
                 }
-
             }
             xmlItem.setChildren(ValueCreator.createXmlSequence(xmlList));
             return xmlItem;
@@ -71,7 +79,7 @@ public class OMElementConverter {
         }
 
         private static BXml getXmlCData(OMText omText) {
-            String text ="<![CDATA[" +omText.getText()+"]]>";
+            String text =omText.getText();
             return ValueCreator.createXmlText(StringUtils.fromString(text));
         }
 }
