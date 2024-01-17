@@ -37,7 +37,7 @@ public class OMElementConverter {
             return null;
         }
         private static BXml getXmlItem(OMElement omElement) {
-            QName qName = new QName(omElement.getNamespaceURI(),omElement.getLocalName());
+            QName qName = new QName(omElement.getNamespaceURI(),omElement.getLocalName(), omElement.getPrefix());
             BXmlItem xmlItem = ValueCreator.createXmlItem(qName, false);
 
             var attributes = omElement.getAllAttributes();
