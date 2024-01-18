@@ -18,36 +18,34 @@ public class Main {
 
     public static void main(String[] args) {
         // Create an OMFactory
-        BXmlConverter bXmlConverter = new BXmlConverter();
-        BXml bxml = bXmlConverter.GetXmlItem();
-        OMElement omElement = bXmlConverter.toOMElement(bxml);
-        System.out.println(omElement);
-        System.out.println(bxml);
+//        BXmlConverter bXmlConverter = new BXmlConverter();
+//        BXml bxml = bXmlConverter.GetXmlItem();
+//        OMElement omElement = BXmlConverter.toOMElement(bxml);
+//
+//        System.out.println(omElement);
+//        System.out.println(bxml);
+
+        main2(args);
 
     }
 
     public static void main2(String[] args) {
         // Create an OMFactory
         OMFactory factory = OMAbstractFactory.getOMFactory();
-        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+        OMNamespace namespace = factory.createOMNamespace("http://example.com","ns");
         OMElement rootElement = factory.createOMElement("root", namespace);
+        rootElement.setText("Hello World!");
         OMElement childElement1 = factory.createOMElement("child1", namespace);
-        childElement1.setText("Hello");
+        childElement1.setText("Hell<<o");
         OMElement childElement2 = factory.createOMElement("child2", namespace);
         childElement2.setText("World");
         rootElement.addChild(childElement1);
         rootElement.addChild(childElement2);
-        BXml bXml = OMElementConverter.toBXml(rootElement);
-        System.out.println(bXml);
+        OMText omText = factory.createOMText(rootElement, "This is a comment");
+        OMText omText2 = factory.createOMText(rootElement, "\n");
+        rootElement.addChild(omText);
+        rootElement.addChild(omText2);
         System.out.println(rootElement);
-        System.out.println(bXml.toString());
-        System.out.println(rootElement.toString());
-        System.out.println(bXml.children().size());
-        System.out.println(bXml.children().getItem(0).children().getItem(0).toString());
-        System.out.println(bXml.children().getItem(1).children().getItem(0).toString());
-        Assert.assertEquals(bXml.children().size(), 2);
-        Assert.assertEquals(bXml.children().getItem(0).children().getItem(0).toString(), "Hello");
-        Assert.assertEquals(bXml.children().getItem(1).children().getItem(0).toString(), "World");
     }
 
 

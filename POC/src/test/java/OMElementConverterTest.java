@@ -1,5 +1,6 @@
 import io.ballerina.runtime.api.values.BXml;
 import org.apache.axiom.om.*;
+import org.example.BXmlConverter;
 import org.example.OMElementConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,22 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 
 public class OMElementConverterTest {
+
+    @Test
+    public void testOMElementToBXmlWithAttributes(){
+        OMFactory factory = OMAbstractFactory.getOMFactory();
+        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+        OMElement rootElement = factory.createOMElement("root", namespace);
+        OMAttribute attribute1 = factory.createOMAttribute("attr1", namespace, "value1");
+        OMAttribute attribute2 = factory.createOMAttribute("attr2", namespace, "value2");
+        rootElement.addAttribute(attribute1);
+        rootElement.addAttribute(attribute2);
+        BXml bXml = OMElementConverter.toBXml(rootElement);
+        System.out.println(BXmlConverter.toOMElement(bXml));
+        System.out.println(bXml);
+        System.out.println(rootElement);
+    }
+
     @Test
     public void testOMElementToBXmlWithText() {
         OMFactory factory = OMAbstractFactory.getOMFactory();
@@ -19,6 +36,7 @@ public class OMElementConverterTest {
         rootElement.addChild(childElement1);
         rootElement.addChild(childElement2);
         BXml bXml = OMElementConverter.toBXml(rootElement);
+
         Assertions.assertEquals(bXml.children().size(), 2);
         Assertions.assertEquals(bXml.children().getItem(0).children().getItem(0).toString(), "Hello");
         Assertions.assertEquals(bXml.children().getItem(1).children().getItem(0).toString(), "World");
@@ -32,6 +50,7 @@ public class OMElementConverterTest {
         OMComment comment = factory.createOMComment(rootElement, "This is a comment");
         rootElement.addChild(comment);
         BXml bXml = OMElementConverter.toBXml(rootElement);
+
         Assertions.assertEquals(bXml.children().size(), 1);
         Assertions.assertEquals(bXml.children().getItem(0).toString(), "<!--This is a comment-->");
     }
@@ -44,6 +63,7 @@ public class OMElementConverterTest {
         OMProcessingInstruction pi = factory.createOMProcessingInstruction(rootElement, "target", "data");
         rootElement.addChild(pi);
         BXml bXml = OMElementConverter.toBXml(rootElement);
+
         Assertions.assertEquals(bXml.children().size(), 1);
         Assertions.assertEquals(bXml.children().getItem(0).toString(), "<?target data?>");
     }
@@ -56,6 +76,7 @@ public class OMElementConverterTest {
         OMText cdata = factory.createOMText(rootElement, "This is a CDATA", OMNode.CDATA_SECTION_NODE);
         rootElement.addChild(cdata);
         BXml bXml = OMElementConverter.toBXml(rootElement);
+
         Assertions.assertEquals(bXml.children().size(), 1);
         Assertions.assertEquals(bXml.children().getItem(0).toString(), "This is a CDATA");
     }
@@ -107,13 +128,15 @@ public class OMElementConverterTest {
             OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
             OMElement rootElement = builder.getDocumentElement();
 
-            File textFile = new File("src/test/resources/testBxmlWithAll.txt");
+            File textFile = new File("src/test/resources/testBXmlWithAll.txt");
             FileInputStream textInputStream = new FileInputStream(textFile);
             byte[] data = new byte[(int) textFile.length()];
             textInputStream.read(data);
             textInputStream.close();
             String text = new String(data, "UTF-8");
 
+            System.out.println(text);
+            System.out.println(OMElementConverter.toBXml(rootElement).toString());
             Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), text);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

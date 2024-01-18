@@ -1,7 +1,1 @@
-<root>
-    <element attribute1="value1" attribute2="value2">
-        <![CDATA[This is a CDATA section with <b>formatted</b> text.]]>
-    </element>
-    <?processing-instruction target="instruction-target" data="instruction-data"?>
-    <textElement>This is regular text content.</textElement>
-</root>
+<root>    <element attribute1="value1" attribute2="value2">        <![CDATA[This is a CDATA section with <b>formatted</b> text.]]>    </element>    <?processing-instruction target="instruction-target" data="instruction-data"?>    <textElement>This is regular text content.</textElement></root>

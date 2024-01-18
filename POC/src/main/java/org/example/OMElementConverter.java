@@ -38,6 +38,8 @@ public class OMElementConverter {
         }
         private static BXml getXmlItem(OMElement omElement) {
             QName qName;
+            // if prefix is not provided test case will fail
+            // TODO: find the issue that fail and put it here
             if (omElement.getPrefix() == null) {
                 qName = new QName(omElement.getNamespaceURI(), omElement.getLocalName());
             }else{
