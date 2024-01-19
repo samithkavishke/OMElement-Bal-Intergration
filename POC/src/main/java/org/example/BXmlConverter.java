@@ -12,11 +12,6 @@ public class BXmlConverter {
 
     private static final OMFactory factory = OMAbstractFactory.getOMFactory();
 
-    public static OMElement toOMElement1(BXml bXml) {
-        String fis = bXml.toString();
-
-        return toOMElement(bXml);
-    }
     public static OMElement toOMElement(BXml bXml) {
         BXmlItem xmlItem = (BXmlItem) bXml;
 
