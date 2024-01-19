@@ -15,27 +15,29 @@ public class OMElementConverter {
         }
 
         public static  BXml toBXml(OMNode omNode) {
-            if (omNode.getType() == OMNode.ELEMENT_NODE) {
-                return getXmlItem((OMElement) omNode);
-            } else if (omNode.getType() == OMNode.TEXT_NODE) {
-                return getXmlText((OMText) omNode);
-            } else if (omNode.getType() == OMNode.PI_NODE) {
-                return getXmlPI((OMProcessingInstruction) omNode);
-            } else if (omNode.getType() == OMNode.COMMENT_NODE) {
-                return getXmlComment((OMComment) omNode);
-            } else if (omNode.getType() == OMNode.SPACE_NODE) {
-                return getXmlText((OMText) omNode);
-            } else if (omNode.getType() == OMNode.CDATA_SECTION_NODE) {
-                return getXmlCData((OMText) omNode);
-            } else if (omNode.getType() == OMNode.DTD_NODE){
-                // cannot occur
-                return null;
-            } else if (omNode.getType() == OMNode.ENTITY_REFERENCE_NODE){
-                // cannot occur
-                return null;
-            }
+            switch (omNode.getType()) {
+                case OMNode.ELEMENT_NODE:
+                    return getXmlItem((OMElement) omNode);
+                case OMNode.TEXT_NODE:
+                    return getXmlText((OMText) omNode);
+                case OMNode.PI_NODE:
+                    return getXmlPI((OMProcessingInstruction) omNode);
+                case OMNode.COMMENT_NODE:
+                    return getXmlComment((OMComment) omNode);
+                case OMNode.SPACE_NODE:
+                    return getXmlText((OMText) omNode);
+                case OMNode.CDATA_SECTION_NODE:
+                    return getXmlCData((OMText) omNode);
+                case OMNode.DTD_NODE:
+                    //NOTE: cannot occur
+                    return null;
+                case OMNode.ENTITY_REFERENCE_NODE:
+                    //NOTE: cannot occur
+                    return null;
+                }
             return null;
         }
+
         private static BXml getXmlItem(OMElement omElement) {
             QName qName;
             // if prefix is not provided test case will fail
