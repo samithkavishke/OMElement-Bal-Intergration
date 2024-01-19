@@ -18,13 +18,6 @@ public class Main {
 
     public static void main(String[] args) {
         // Create an OMFactory
-//        BXmlConverter bXmlConverter = new BXmlConverter();
-//        BXml bxml = bXmlConverter.GetXmlItem();
-//        OMElement omElement = BXmlConverter.toOMElement(bxml);
-//
-//        System.out.println(omElement);
-//        System.out.println(bxml);
-
         main2(args);
 
     }
