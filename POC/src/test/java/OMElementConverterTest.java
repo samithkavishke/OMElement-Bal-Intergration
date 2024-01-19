@@ -12,7 +12,7 @@ public class OMElementConverterTest {
     @Test
     public void testOMElementToBXmlWithAttributes(){
         OMFactory factory = OMAbstractFactory.getOMFactory();
-        OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
+        OMNamespace namespace = factory.createOMNamespace("https://example.com", "ns");
         OMElement rootElement = factory.createOMElement("root", namespace);
         OMAttribute attribute1 = factory.createOMAttribute("attr1", namespace, "value1");
         OMAttribute attribute2 = factory.createOMAttribute("attr2", namespace, "value2");
@@ -77,6 +77,7 @@ public class OMElementConverterTest {
         rootElement.addChild(cdata);
         BXml bXml = OMElementConverter.toBXml(rootElement);
 
+        System.out.println(bXml);
         Assertions.assertEquals(bXml.children().size(), 1);
         Assertions.assertEquals(bXml.children().getItem(0).toString(), "This is a CDATA");
     }
@@ -89,7 +90,7 @@ public class OMElementConverterTest {
             OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
             OMElement rootElement = builder.getDocumentElement();
 
-             Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), rootElement.toString());
+            Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), rootElement.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -134,9 +135,10 @@ public class OMElementConverterTest {
             textInputStream.read(data);
             textInputStream.close();
             String text = new String(data, "UTF-8");
-
-            System.out.println(text);
+            BXml bXml = OMElementConverter.toBXml(rootElement);
             System.out.println(OMElementConverter.toBXml(rootElement).toString());
+            System.out.println(text);
+            System.out.println(rootElement.toString());
             Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), text);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
