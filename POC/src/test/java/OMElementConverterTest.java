@@ -12,16 +12,22 @@ public class OMElementConverterTest {
     @Test
     public void testOMElementToBXmlWithAttributes(){
         OMFactory factory = OMAbstractFactory.getOMFactory();
-        OMNamespace namespace = factory.createOMNamespace("https://example.com", "ns");
-        OMElement rootElement = factory.createOMElement("root", namespace);
-        OMAttribute attribute1 = factory.createOMAttribute("attr1", namespace, "value1");
-        OMAttribute attribute2 = factory.createOMAttribute("attr2", namespace, "value2");
+        OMNamespace namespace = factory.createOMNamespace("http://ballerina.com/ballerinaio", "sam");
+        OMElement rootElement = factory.createOMElement("child1", namespace);
+        OMNamespace namespace1 = factory.createOMNamespace("https://hure.com", "mas");
+        OMAttribute attribute1 = factory.createOMAttribute("arg1", namespace, "val1");
+        OMAttribute attribute2 = factory.createOMAttribute("arg2", namespace1, "val2");
+        OMAttribute attribute3 = factory.createOMAttribute("arg3", namespace1, "val3");
+
         rootElement.addAttribute(attribute1);
         rootElement.addAttribute(attribute2);
+        rootElement.addAttribute(attribute3);
         BXml bXml = OMElementConverter.toBXml(rootElement);
+
+
         System.out.println(BXmlConverter.toOMElement(bXml));
-        System.out.println(bXml);
-        System.out.println(rootElement);
+        System.out.println("BXml: "+bXml);
+        System.out.println("OMElement: "+rootElement);
     }
 
     @Test

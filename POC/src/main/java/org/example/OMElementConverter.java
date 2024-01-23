@@ -3,10 +3,14 @@ package org.example;
 import io.ballerina.runtime.api.creators.ValueCreator;
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.*;
+import io.ballerina.runtime.internal.values.MapValue;
+import io.ballerina.runtime.internal.values.XmlItem;
 import org.apache.axiom.om.*;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OMElementConverter {
 
@@ -14,7 +18,7 @@ public class OMElementConverter {
             return getXmlItem(omElement);
         }
 
-        public static  BXml toBXml(OMNode omNode) {
+        private static  BXml toBXml(OMNode omNode) {
             switch (omNode.getType()) {
                 case OMNode.ELEMENT_NODE:
                     return getXmlItem((OMElement) omNode);
@@ -38,26 +42,59 @@ public class OMElementConverter {
             return null;
         }
 
-        private static BXml getXmlItem(OMElement omElement) {
-            QName qName;
-            // if prefix is not provided test case will fail
-            // TODO: find the issue that fail and put it here
+         private static QName getQName(OMElement omElement) {
+            // If prefix is not provided test case will fail
             if (omElement.getPrefix() == null) {
-                qName = new QName(omElement.getNamespaceURI(), omElement.getLocalName());
+                return new QName(omElement.getNamespaceURI(), omElement.getLocalName());
             }else{
-                qName = new QName(omElement.getNamespaceURI(),omElement.getLocalName(), omElement.getPrefix());
+                return new QName(omElement.getNamespaceURI(),omElement.getLocalName(), omElement.getPrefix());
             }
+
+        }
+
+        private static void addAttributes(OMElement omElement, BXmlItem xmlItem) {
+
+            // NOTE:Extracted the idea from  bvm/ballerina-runtime/src/main/java/io/ballerina/runtime/internal/XmlTreeBuilder.java
+            var attributes = omElement.getAllAttributes();
+            var attributesMap = xmlItem.getAttributesMap();
+            Set<QName> usedNS = new HashSet<>();
+
+            while(attributes.hasNext()){
+
+                OMAttribute attribute = (OMAttribute) attributes.next();
+                QName qName = new QName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
+
+                //CHECK: Good to put break point here and check the values
+                attributesMap.put(StringUtils.fromString(qName.toString()), StringUtils.fromString(attribute.getAttributeValue()));
+                if (!attribute.getPrefix().isEmpty()) {
+                    usedNS.add(qName);
+                }
+            }
+
+            if (!omElement.getPrefix().isEmpty()) {
+                usedNS.add(getQName(omElement));
+            }
+
+            for (QName qName : usedNS) {
+                String prefix = qName.getPrefix();
+                String namespaceURI = qName.getNamespaceURI();
+                if (namespaceURI.isEmpty()) {
+                    namespaceURI = "";
+                }
+
+                BString xmlnsPrefix = StringUtils.fromString(XmlItem.XMLNS_NS_URI_PREFIX + prefix);
+                attributesMap.put(xmlnsPrefix, StringUtils.fromString(namespaceURI));
+            }
+
+            //TODO: There is still another part in the code that referred check it and add if necessary
+
+        }
+        private static BXml getXmlItem(OMElement omElement) {
+            // TODO: find the issue that fail and put it here
+            QName qName = getQName(omElement);
             BXmlItem xmlItem = ValueCreator.createXmlItem(qName, false);
 
-            var attributes = omElement.getAllAttributes();
-
-            BMap bMap = ValueCreator.createMapValue();
-            while(attributes.hasNext()){
-                OMAttribute attribute = (OMAttribute) attributes.next();
-                bMap.put(StringUtils.fromString(attribute.getLocalName()), StringUtils.fromString(attribute.getAttributeValue()));
-
-            }
-            xmlItem.setAttributes(bMap);
+            addAttributes(omElement, xmlItem);
 
             ArrayList<BXml> xmlList = new ArrayList<>();
             var descendants = omElement.getDescendants(false);
