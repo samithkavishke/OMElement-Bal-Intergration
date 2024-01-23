@@ -1,17 +1,7 @@
 package org.example;
 
-import io.ballerina.runtime.api.creators.ValueCreator;
-import io.ballerina.runtime.api.values.BString;
-import io.ballerina.runtime.api.values.BXml;
-import io.ballerina.runtime.api.values.BXmlItem;
-import org.apache.axiom.om.*;
-import io.ballerina.runtime.api.utils.StringUtils;
-import org.junit.Assert;
 
-import javax.xml.namespace.QName;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
+import org.apache.axiom.om.*;
 
 
 public class Main {

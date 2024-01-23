@@ -3,8 +3,6 @@ package org.example;
 import io.ballerina.runtime.api.creators.ValueCreator;
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.*;
-import io.ballerina.runtime.internal.values.MapValue;
-import io.ballerina.runtime.internal.values.XmlItem;
 import org.apache.axiom.om.*;
 
 import javax.xml.namespace.QName;
@@ -52,15 +50,15 @@ public class OMElementConverter {
 
         }
 
-    private static QName getQName(OMAttribute omAttribute) {
-        // If prefix is not provided test case will fail
-        if (omAttribute.getPrefix() == null) {
-            return new QName(omAttribute.getNamespaceURI(), omAttribute.getLocalName());
-        }else{
-            return new QName(omAttribute.getNamespaceURI(),omAttribute.getLocalName(), omAttribute.getPrefix());
-        }
+        private static QName getQName(OMAttribute omAttribute) {
+            // If prefix is not provided test case will fail
+            if (omAttribute.getPrefix() == null) {
+                return new QName(omAttribute.getNamespaceURI(), omAttribute.getLocalName());
+            }else{
+                return new QName(omAttribute.getNamespaceURI(),omAttribute.getLocalName(), omAttribute.getPrefix());
+            }
 
-    }
+        }
 
         private static void addAttributes(OMElement omElement, BXmlItem xmlItem) {
 
@@ -95,11 +93,11 @@ public class OMElementConverter {
                     namespaceURI = "";
                 }
 
-                BString xmlnsPrefix = StringUtils.fromString(XmlItem.XMLNS_NS_URI_PREFIX + prefix);
+                BString xmlnsPrefix = StringUtils.fromString(BXmlItem.XMLNS_NS_URI_PREFIX + prefix);
                 attributesMap.put(xmlnsPrefix, StringUtils.fromString(namespaceURI));
             }
 
-            //TODO: There is still another part in the code that referred check it and add if necessary
+            //TODO: There is still another part in the code that referred
 
         }
         private static BXml getXmlItem(OMElement omElement) {

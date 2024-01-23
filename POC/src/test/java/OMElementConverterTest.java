@@ -10,24 +10,6 @@ import java.io.*;
 public class OMElementConverterTest {
 
     @Test
-    public void testOMElementToBXmlWithAttributes(){
-        OMFactory factory = OMAbstractFactory.getOMFactory();
-        OMNamespace namespace = factory.createOMNamespace("http://ballerina.com/ballerinaio", "sam");
-        OMElement rootElement = factory.createOMElement("child1", namespace);
-        OMNamespace namespace1 = factory.createOMNamespace("https://hure.com", "mas");
-        OMAttribute attribute1 = factory.createOMAttribute("arg1", namespace, "val1");
-        OMAttribute attribute2 = factory.createOMAttribute("arg2", namespace1, "val2");
-        OMAttribute attribute3 = factory.createOMAttribute("arg3", namespace1, "val3");
-
-        rootElement.addAttribute(attribute1);
-        rootElement.addAttribute(attribute2);
-        rootElement.addAttribute(attribute3);
-        BXml bXml = OMElementConverter.toBXml(rootElement);
-
-        Assertions.assertEquals(BXmlConverter.toOMElement(bXml).toString(), rootElement.toString());
-    }
-
-    @Test
     public void testOMElementToBXmlWithText() {
         OMFactory factory = OMAbstractFactory.getOMFactory();
         OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
@@ -151,5 +133,26 @@ public class OMElementConverterTest {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Test
+    public void testOMElementToBXmlWithAttributes(){
+        OMFactory factory = OMAbstractFactory.getOMFactory();
+        OMNamespace namespace = factory.createOMNamespace("http://ballerina.com/ballerinaio", "sam");
+        OMElement rootElement = factory.createOMElement("child1", namespace);
+        OMNamespace namespace1 = factory.createOMNamespace("https://hure.com", "mas");
+        OMAttribute attribute1 = factory.createOMAttribute("arg1", namespace, "val1");
+        OMAttribute attribute2 = factory.createOMAttribute("arg2", namespace1, "val2");
+        OMAttribute attribute3 = factory.createOMAttribute("arg3", namespace1, "val3");
+
+        rootElement.addAttribute(attribute1);
+        rootElement.addAttribute(attribute2);
+        rootElement.addAttribute(attribute3);
+        BXml bXml = OMElementConverter.toBXml(rootElement);
+        OMElement omElement = BXmlConverter.toOMElement(bXml);
+
+        // Mixed Test Case
+        Assertions.assertEquals(bXml.toString(), OMElementConverter.toBXml(omElement).toString());
+        Assertions.assertEquals(BXmlConverter.toOMElement(bXml).toString(), rootElement.toString());
     }
 }

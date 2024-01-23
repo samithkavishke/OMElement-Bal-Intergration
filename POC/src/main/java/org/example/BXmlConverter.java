@@ -4,7 +4,6 @@ import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BString;
 import io.ballerina.runtime.api.values.BXml;
 import io.ballerina.runtime.api.values.BXmlItem;
-import io.ballerina.runtime.internal.values.XmlItem;
 import io.ballerina.runtime.internal.values.XmlPi;
 import org.apache.axiom.om.*;
 import org.apache.commons.lang3.tuple.Pair;
@@ -30,7 +29,7 @@ public class BXmlConverter {
 
     private boolean isNamespace(String value) {
         // starts with XmlItem.XMLNS_NS_URI_PREFIX true else false
-        return value.startsWith(XmlItem.XMLNS_NS_URI_PREFIX);
+        return value.startsWith(BXmlItem.XMLNS_NS_URI_PREFIX);
     }
 
 
@@ -48,7 +47,7 @@ public class BXmlConverter {
 
         for (Map.Entry<BString, BString> entry : bMap.entrySet()) {
             //TODO: handle namespace
-            if (entry.getKey().getValue().startsWith(XmlItem.XMLNS_NS_URI_PREFIX)) {
+            if (entry.getKey().getValue().startsWith(BXmlItem.XMLNS_NS_URI_PREFIX)) {
                 //if this is a namespace
                 Pair<String, String> pair = extractNamespace(entry.getKey().getValue());
                 OMNamespace omNamespace = factory.createOMNamespace(entry.getValue().getValue(), pair.getRight());
@@ -56,7 +55,7 @@ public class BXmlConverter {
             }
         }
         for (Map.Entry<BString, BString> attribute : bMap.entrySet()) {
-            if (!attribute.getKey().getValue().startsWith(XmlItem.XMLNS_NS_URI_PREFIX)) {
+            if (!attribute.getKey().getValue().startsWith(BXmlItem.XMLNS_NS_URI_PREFIX)) {
                 //if this is a namespace
                 Pair<String, String> pair = extractNamespace(attribute.getKey().getValue());
                 OMNamespace ns = namespaceMap.get(pair.getLeft());
