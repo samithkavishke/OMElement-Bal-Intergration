@@ -24,10 +24,7 @@ public class OMElementConverterTest {
         rootElement.addAttribute(attribute3);
         BXml bXml = OMElementConverter.toBXml(rootElement);
 
-
-        System.out.println(BXmlConverter.toOMElement(bXml));
-        System.out.println("BXml: "+bXml);
-        System.out.println("OMElement: "+rootElement);
+        Assertions.assertEquals(BXmlConverter.toOMElement(bXml).toString(), rootElement.toString());
     }
 
     @Test

@@ -52,6 +52,16 @@ public class OMElementConverter {
 
         }
 
+    private static QName getQName(OMAttribute omAttribute) {
+        // If prefix is not provided test case will fail
+        if (omAttribute.getPrefix() == null) {
+            return new QName(omAttribute.getNamespaceURI(), omAttribute.getLocalName());
+        }else{
+            return new QName(omAttribute.getNamespaceURI(),omAttribute.getLocalName(), omAttribute.getPrefix());
+        }
+
+    }
+
         private static void addAttributes(OMElement omElement, BXmlItem xmlItem) {
 
             // NOTE:Extracted the idea from  bvm/ballerina-runtime/src/main/java/io/ballerina/runtime/internal/XmlTreeBuilder.java
@@ -59,20 +69,23 @@ public class OMElementConverter {
             var attributesMap = xmlItem.getAttributesMap();
             Set<QName> usedNS = new HashSet<>();
 
-            while(attributes.hasNext()){
+            while (attributes.hasNext()) {
 
                 OMAttribute attribute = (OMAttribute) attributes.next();
-                QName qName = new QName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
-
+//                QName qName = new QName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
+                QName qName = getQName(attribute);
                 //CHECK: Good to put break point here and check the values
                 attributesMap.put(StringUtils.fromString(qName.toString()), StringUtils.fromString(attribute.getAttributeValue()));
-                if (!attribute.getPrefix().isEmpty()) {
-                    usedNS.add(qName);
+                if(attribute.getPrefix() != null) {
+                    if (!attribute.getPrefix().isEmpty()) {
+                        usedNS.add(qName);
+                    }
                 }
             }
-
-            if (!omElement.getPrefix().isEmpty()) {
-                usedNS.add(getQName(omElement));
+            if (omElement.getPrefix() != null){
+                if (!omElement.getPrefix().isEmpty()) {
+                    usedNS.add(getQName(omElement));
+                }
             }
 
             for (QName qName : usedNS) {
