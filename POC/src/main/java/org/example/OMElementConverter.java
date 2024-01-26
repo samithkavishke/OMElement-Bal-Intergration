@@ -2,12 +2,15 @@ package org.example;
 
 import io.ballerina.runtime.api.creators.ValueCreator;
 import io.ballerina.runtime.api.utils.StringUtils;
-import io.ballerina.runtime.api.values.*;
+import io.ballerina.runtime.api.values.BString;
+import io.ballerina.runtime.api.values.BXml;
+import io.ballerina.runtime.api.values.BXmlItem;
 import org.apache.axiom.om.*;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class OMElementConverter {
@@ -70,7 +73,7 @@ public class OMElementConverter {
             while (attributes.hasNext()) {
 
                 OMAttribute attribute = (OMAttribute) attributes.next();
-//                QName qName = new QName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
+//                                                                     QName qName = new QName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
                 QName qName = getQName(attribute);
                 //CHECK: Good to put break point here and check the values
                 attributesMap.put(StringUtils.fromString(qName.toString()), StringUtils.fromString(attribute.getAttributeValue()));
@@ -98,7 +101,19 @@ public class OMElementConverter {
             }
 
             //TODO: There is still another part in the code that referred
+            //NOTE: This is for the namespaces that are declared but not used in its attributes
+            for (Iterator it = omElement.getAllDeclaredNamespaces(); it.hasNext(); ) {
 
+                OMNamespace omNamespace = (OMNamespace) it.next();
+                String uri = omNamespace.getNamespaceURI();
+                String prefix = omNamespace.getPrefix();
+                if (prefix == null || prefix.isEmpty()) {
+                    attributesMap.put(BXmlItem.XMLNS_PREFIX, StringUtils.fromString(uri));
+                } else {
+                    attributesMap.put(StringUtils.fromString(BXmlItem.XMLNS_NS_URI_PREFIX + prefix),
+                            StringUtils.fromString(uri));
+                }
+            }
         }
         private static BXml getXmlItem(OMElement omElement) {
             // TODO: find the issue that fail and put it here

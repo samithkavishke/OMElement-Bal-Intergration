@@ -62,7 +62,6 @@ public class OMElementConverterTest {
         rootElement.addChild(cdata);
         BXml bXml = OMElementConverter.toBXml(rootElement);
 
-        System.out.println(bXml);
         Assertions.assertEquals(bXml.children().size(), 1);
         Assertions.assertEquals(bXml.children().getItem(0).toString(), "This is a CDATA");
     }
@@ -99,8 +98,6 @@ public class OMElementConverterTest {
             Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), text);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -121,14 +118,8 @@ public class OMElementConverterTest {
             textInputStream.close();
             String text = new String(data, "UTF-8");
             BXml bXml = OMElementConverter.toBXml(rootElement);
-            System.out.println(OMElementConverter.toBXml(rootElement).toString());
-            System.out.println(text);
-            System.out.println(rootElement.toString());
-            Assertions.assertEquals(OMElementConverter.toBXml(rootElement).toString(), text);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+
+            Assertions.assertEquals(bXml.toString(), text);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -154,5 +145,36 @@ public class OMElementConverterTest {
         // Mixed Test Case
         Assertions.assertEquals(bXml.toString(), OMElementConverter.toBXml(omElement).toString());
         Assertions.assertEquals(BXmlConverter.toOMElement(bXml).toString(), rootElement.toString());
+    }
+
+    @Test
+    public void testDefaultNamespace(){
+        try {
+            File xmlFile = new File("src/test/resources/default_namespaced_invoice.xml");
+            FileInputStream fileInputStream = new FileInputStream(xmlFile);
+            OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
+            OMElement rootElement = builder.getDocumentElement();
+
+
+            BXml bXml = OMElementConverter.toBXml(rootElement);
+            Assertions.assertEquals(rootElement.toString(), bXml.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testnamespacedInvoice(){
+        try {
+            File xmlFile = new File("src/test/resources/namespaced_invoice.xml");
+            FileInputStream fileInputStream = new FileInputStream(xmlFile);
+            OMXMLParserWrapper builder = OMXMLBuilderFactory.createOMBuilder(fileInputStream);
+            OMElement rootElement = builder.getDocumentElement();
+
+            BXml bXml = OMElementConverter.toBXml(rootElement);
+            Assertions.assertEquals(rootElement.toString(), bXml.toString());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
