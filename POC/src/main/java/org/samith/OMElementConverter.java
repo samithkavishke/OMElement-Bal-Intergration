@@ -1,4 +1,4 @@
-package org.samith.example;
+package org.samith;
 
 import io.ballerina.runtime.api.creators.ValueCreator;
 import io.ballerina.runtime.api.utils.StringUtils;

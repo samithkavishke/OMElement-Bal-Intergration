@@ -1,7 +1,7 @@
 import io.ballerina.runtime.api.values.BXml;
 import org.apache.axiom.om.*;
-import org.example.BXmlConverter;
-import org.example.OMElementConverter;
+import org.samith.BXmlConverter;
+import org.samith.OMElementConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

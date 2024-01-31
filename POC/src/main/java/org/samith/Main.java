@@ -1,4 +1,4 @@
-package org.samith.example;
+package org.samith;
 
 
 import org.apache.axiom.om.*;

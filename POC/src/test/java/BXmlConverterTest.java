@@ -4,7 +4,7 @@ import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BXml;
 import io.ballerina.runtime.api.values.BXmlItem;
 import org.apache.axiom.om.OMElement;
-import org.example.BXmlConverter;
+import org.samith.BXmlConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
