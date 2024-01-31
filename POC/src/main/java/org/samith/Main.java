@@ -1,4 +1,4 @@
-package org.example;
+package org.samith.example;
 
 
 import org.apache.axiom.om.*;
@@ -19,7 +19,7 @@ public class Main {
         OMElement rootElement = factory.createOMElement("root", namespace);
         rootElement.setText("Hello World!");
         OMElement childElement1 = factory.createOMElement("child1", namespace);
-        childElement1.setText("Hell<<o");
+        childElement1.setText("Hello");
         OMElement childElement2 = factory.createOMElement("child2", namespace);
         childElement2.setText("World");
         rootElement.addChild(childElement1);

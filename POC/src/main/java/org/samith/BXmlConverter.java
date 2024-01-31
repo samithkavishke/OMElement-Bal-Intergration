@@ -1,4 +1,4 @@
-package org.example;
+package org.samith.example;
 
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BString;
