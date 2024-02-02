@@ -1,7 +1,9 @@
-distinct class messageContextImpl {
+distinct class MessageContextImpl {
     *MessageContext;
 
     isolated function getEnvelope() returns xml {
+        // Initialize messagecontext here
+        getEnvelope(self);
         return xml ``;
     }
 
