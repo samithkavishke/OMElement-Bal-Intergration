@@ -2,6 +2,7 @@ import io.ballerina.runtime.api.values.BXml;
 import org.apache.axiom.om.*;
 import org.OmelementBXmlConversion.BXmlConverter;
 import org.OmelementBXmlConversion.OMElementConverter;
+import org.apache.log4j.BasicConfigurator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +30,8 @@ public class OMElementConverterTest {
 
     @Test
     public void testOMElementToBXmlWithComment() {
+
+
         OMFactory factory = OMAbstractFactory.getOMFactory();
         OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
         OMElement rootElement = factory.createOMElement("root", namespace);
@@ -55,6 +58,7 @@ public class OMElementConverterTest {
 
     @Test
     public void testOMElementWithCData() {
+
         OMFactory factory = OMAbstractFactory.getOMFactory();
         OMNamespace namespace = factory.createOMNamespace("http://example.com", "ns");
         OMElement rootElement = factory.createOMElement("root", namespace);
@@ -82,6 +86,8 @@ public class OMElementConverterTest {
 
     @Test
     public void testBXmlWithMoreCData(){
+
+
         try {
             File xmlFile = new File("src/test/resources/testBxmlWithMoreCData.xml");
             FileInputStream fileInputStream = new FileInputStream(xmlFile);
