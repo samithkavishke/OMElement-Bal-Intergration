@@ -7,7 +7,6 @@ import io.ballerina.runtime.api.values.BXmlItem;
 import io.ballerina.runtime.internal.values.XmlPi;
 import org.apache.axiom.om.*;
 import org.apache.axiom.soap.SOAPEnvelope;
-import org.apache.axiom.soap.SOAPHeader;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashMap;
@@ -33,9 +32,6 @@ public class BXmltoSoapEnvelopeConverter {
     public static SOAPEnvelope toSOAPEnvelope(BXml bXml) {
 
 
-        SOAPEnvelope soapEnvelope = OMAbstractFactory.getSOAP11Factory().getDefaultEnvelope();
-        SOAPHeader soapHeader = soapEnvelope.getHeader();
-        soapHeader.addHeaderBlock("headerBlock", soapEnvelope.getNamespace());
 
 
         BXmlItem xmlItem = (BXmlItem) bXml;
@@ -43,8 +39,7 @@ public class BXmltoSoapEnvelopeConverter {
         OMNamespace namespace = factory.createOMNamespace(xmlItem.getQName().getNamespaceURI(), xmlItem.getQName().getPrefix());
         BMap<BString, BString> bMap = xmlItem.getAttributesMap();
 
-        OMElement rootElement = factory.createOMElement(xmlItem.getQName().getLocalPart(), namespace);
-
+        SOAPEnvelope soapEnvelope = OMAbstractFactory.getSOAP11Factory().createSOAPEnvelope(namespace);
         // create a map of namespaces with key:"" and value:null
         Map<String, OMNamespace> namespaceMap = new HashMap<>();
         namespaceMap.put("", null);
@@ -62,7 +57,6 @@ public class BXmltoSoapEnvelopeConverter {
             if (!attribute.getKey().getValue().startsWith(BXmlItem.XMLNS_NS_URI_PREFIX)) {
                 //if this is a namespace
                 Pair<String, String> pair = extractNamespace(attribute.getKey().getValue());
-                OMNamespace ns = namespaceMap.get(pair.getLeft());
                 OMAttribute omattribute = factory.createOMAttribute(pair.getRight(), namespaceMap.get(pair.getLeft()),  attribute.getValue().getValue());
                 soapEnvelope.addAttribute(omattribute);
                 //TODO: previously used OMAttribute creation method research why it was changed to attribute.
