@@ -2,7 +2,6 @@ import io.ballerina.runtime.api.values.BXml;
 import org.apache.axiom.om.*;
 import org.OmelementBXmlConversion.BXmlConverter;
 import org.OmelementBXmlConversion.OMElementConverter;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -58,6 +58,8 @@ public type MessageContext object {
 
     isolated function setServerSide(boolean b) returns error?;
 
+    // isolated function setContextEntries(map<any> entries) returns error?;
+
     isolated function toString() returns string;
 // getProperties
 // getEnvelope()

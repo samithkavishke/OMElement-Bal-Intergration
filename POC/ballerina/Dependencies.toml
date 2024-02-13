@@ -36,35 +36,14 @@ dependencies = [
 ]
 
 [[package]]
-org = "ballerina"
-name = "observe"
-version = "1.2.2"
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"}
-]
-
-[[package]]
-org = "ballerinai"
-name = "observe"
-version = "0.0.0"
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "observe"}
-]
-modules = [
-	{org = "ballerinai", packageName = "observe", moduleName = "observe"}
-]
-
-[[package]]
 org = "samith"
-name = "ballerina"
+name = "ballerina.omelement.intergration"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerinai", name = "observe"}
+	{org = "ballerina", name = "jballerina.java"}
 ]
 modules = [
-	{org = "samith", packageName = "ballerina", moduleName = "ballerina"}
+	{org = "samith", packageName = "ballerina.omelement.intergration", moduleName = "ballerina.omelement.intergration"}
 ]
 

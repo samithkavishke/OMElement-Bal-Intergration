@@ -1,10 +1,16 @@
-distinct class MessageContextImpl {
+// import ballerina/io;
+class MessageContextImpl {
     *MessageContext;
 
-    isolated function getEnvelope() returns xml {
-        // Initialize messagecontext here
-        getEnvelope(self);
-        return xml ``;
+    private xml envelope = xml ``;
+    private handle messageContextHandle;
+
+    isolated function init() {
+        self.messageContextHandle = initalizeMessageContext();
+    }
+    
+    isolated function getEnvelope() returns xml {        
+        return getEnvelopeUtil(self.messageContextHandle);
     }
 
     // bxml 
@@ -93,6 +99,7 @@ distinct class MessageContextImpl {
     }
 
     isolated function setEnvelope(xml envelope) returns error? {
+        error? Error = setEnvelopeUtil(self.messageContextHandle, envelope);
         return;
     }
 
@@ -123,4 +130,9 @@ distinct class MessageContextImpl {
     isolated function toString() returns string {
         return "";
     }
+
+    // isolated function setContextEntries(map<any> entries) returns error? {
+    //     handle result = setContextEntriesUtil(self.messageContextHandle, entries);
+    //     return;
+    // }
 }

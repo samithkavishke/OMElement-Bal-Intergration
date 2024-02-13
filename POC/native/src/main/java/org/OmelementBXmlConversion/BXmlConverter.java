@@ -44,7 +44,6 @@ public class BXmlConverter {
         Map<String, OMNamespace> namespaceMap = new HashMap<>();
         namespaceMap.put("", null);
 
-
         for (Map.Entry<BString, BString> entry : bMap.entrySet()) {
             //TODO: handle namespace
             if (entry.getKey().getValue().startsWith(BXmlItem.XMLNS_NS_URI_PREFIX)) {

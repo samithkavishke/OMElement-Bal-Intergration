@@ -5,11 +5,9 @@ plugins {
 rootProject.name = 'omelement-intergration-poc'
 
 include ':omelement-native'
-//include ':omelement-test-utils'
 include ':omelement-ballerina'
 
 project(':omelement-native').projectDir = file("native")
-//project(':omelement-test-utils').projectDir = file("test-utils")
 project(':omelement-ballerina').projectDir = file("ballerina")
 
 gradleEnterprise {
