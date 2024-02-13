@@ -8,7 +8,7 @@
 //import org.apache.synapse.core.axis2.Axis2MessageContext;
 //import org.apache.synapse.core.axis2.Axis2SynapseEnvironment;
 //
-//public class BMessageContext extends Axis2MessageContext {
+//public class BMessageContext extends Axis2MessageContext implements BHanlde {
 //    public BMessageContext(MessageContext axisMsgCtx, SynapseConfiguration synCfg, SynapseEnvironment synEnv) {
 //        super(axisMsgCtx, synCfg, synEnv);
 //    }
