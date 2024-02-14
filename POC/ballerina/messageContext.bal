@@ -8,9 +8,9 @@ public type MessageContext object {
 
     isolated function getProperty(string key) returns any;
 
-    isolated function getProperties() returns map<[string,any]>;
+    isolated function getProperties() returns map<any>;
     
-    isolated function getPropertyKeySet() returns map<string>;
+    isolated function getPropertyKeySet() returns string[];
 
     isolated function getSoapAction() returns string;
 
@@ -36,7 +36,7 @@ public type MessageContext object {
 
     isolated function isSOAP11() returns boolean;
 
-    isolated function setDoingGET(boolean b) returns error?;
+    isolated function setDoingGET(boolean b) ;
 
     isolated function setDoingMTOM(boolean b) returns error?;
 
@@ -58,7 +58,9 @@ public type MessageContext object {
 
     isolated function setServerSide(boolean b) returns error?;
 
-    // isolated function setContextEntries(map<any> entries) returns error?;
+    isolated function setContextEntries(map<any> entries) returns error?;
+
+    isolated function setSoapAction(string action) returns error?;
 
     isolated function toString() returns string;
 // getProperties

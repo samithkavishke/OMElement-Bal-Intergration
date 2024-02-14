@@ -9,130 +9,147 @@ class MessageContextImpl {
         self.messageContextHandle = initalizeMessageContext();
     }
     
+    isolated function get() returns handle {
+        return self.messageContextHandle;
+    }
+
+    isolated function set(handle messageContextHandle) {
+        self.messageContextHandle = messageContextHandle;
+    }
+
     isolated function getEnvelope() returns xml {        
         return getEnvelopeUtil(self.messageContextHandle);
     }
 
+    isolated function setContextEntries(map<any> entries)  {
+        setContextEntriesUtil(self.messageContextHandle, entries);
+    }
     // bxml 
     isolated function getLocalEntry(string key) returns any {
-        return ;
+        return getLocalEntryUtil(self.messageContextHandle, key);
+    }
+
+    isolated function setMessageID(string id) {
+        return setMessageIDUtil(self.messageContextHandle, id);
     }
 
     isolated function getMessageID() returns string {
-        return "";
+        return getMessageIDUtil(self.messageContextHandle);
     }
 
-    isolated function getProperties() returns map<[string, any]> {
-        return {};
+    isolated function setProperty(string key, any value) {
+        setPropertyUtil(self.messageContextHandle, key, value);
+    }
+
+    isolated function getProperties() returns map<any> {
+        return getPropertiesUtil(self.messageContextHandle);
     }
 
     isolated function getProperty(string key) returns any {
-        return ;
+        return getPropertyUtil(self.messageContextHandle, key);
     }
 
-    isolated function getPropertyKeySet() returns map<string> {
-        return {};
+    isolated function getPropertyKeySet() returns string[] {
+        return self.getProperties().keys();
     }
 
+    isolated function setSoapAction(string action) {
+        return setSoapActionUtil(self.messageContextHandle,action);
+    }
     isolated function getSoapAction() returns string {
-        return "";
+        return getSoapActionUtil(self.messageContextHandle);
+    }
+
+    isolated function setWSAAction(string action) {
+        return setWSAActionUtil(self.messageContextHandle, action);
     }
 
     isolated function getWSAAction() returns string {
-        return "";
+        return getWSAActionUtil(self.messageContextHandle);
     }
 
+    isolated function setWSAMessageID(string id) {
+        return setWSAMessageIDUtil(self.messageContextHandle, id);
+    }
     isolated function getWSAMessageID() returns string {
-        return "";
+        return getWSAMessageIDUtil(self.messageContextHandle);
     }
 
     isolated function isDoingGET() returns boolean {
-        return false;
+        return getDoingGETUtil(self.messageContextHandle);
     }
 
     isolated function isDoingMTOM() returns boolean {
-        return false;
+        return getDoingMTOMUtil(self.messageContextHandle);
     }
 
     isolated function isDoingPOX() returns boolean {
-        return false;
+        return getDoingPOXUtil(self.messageContextHandle);
     }
 
     isolated function isDoingSWA() returns boolean {
-        return false;
+        return getDoingSWAUtil(self.messageContextHandle);
     }
 
     isolated function isFaultResponse() returns boolean {
-        return false;
+        return getFaultResponseUtil(self.messageContextHandle);
     }
 
     isolated function isPaused() returns boolean {
-        return false;
+        return getPausedUtil(self.messageContextHandle);
     }
 
     isolated function isResponse() returns boolean {
-        return false;
+        return getResponseUtil(self.messageContextHandle);
     }
 
     isolated function isSOAP11() returns boolean {
-        return false;
+        return getSOAP11Util(self.messageContextHandle);
     }
 
     isolated function isServerSide() returns boolean {
-        return false;
+        return getServerSideUtil(self.messageContextHandle);
     }
 
-    isolated function setDoingGET(boolean b) returns error? {
-        return;
+    isolated function setDoingGET(boolean b) {
+        setDoingGETUtil(self.messageContextHandle, b);
     }
 
-    isolated function setDoingMTOM(boolean b) returns error? {
-        return;
+    isolated function setDoingMTOM(boolean b)  {
+        setDoingMTOMUtil(self.messageContextHandle, b);
     }
 
-    isolated function setDoingPOX(boolean b) returns error? {
-        return;
+    isolated function setDoingPOX(boolean b)  {
+        setDoingPOXUtil(self.messageContextHandle, b);
     }
 
-    isolated function setDoingSWA(boolean b) returns error? {
-        return;
+    isolated function setDoingSWA(boolean b)  {
+        setDoingSWAUtil(self.messageContextHandle, b);
     }
 
     isolated function setEnvelope(xml envelope) returns error? {
         error? Error = setEnvelopeUtil(self.messageContextHandle, envelope);
-        return;
+        return Error;
     }
 
-    isolated function setFaultResponse(boolean b) returns error? {
-        return;
+    isolated function setFaultResponse(boolean b)  {
+        setFaultResponseUtil(self.messageContextHandle, b);
     }
 
-    isolated function setMessageID(string id) returns error? {
-        return;
+    isolated function setPaused(boolean b)  {
+        setPausedUtil(self.messageContextHandle, b);
     }
 
-    isolated function setPaused(boolean b) returns error? {
-        return;
+    isolated function setResponse(boolean b)  {
+        setResponseUtil(self.messageContextHandle, b);
     }
 
-    isolated function setProperty(string key, any value) returns error? {
-        return;
-    }
-
-    isolated function setResponse(boolean b) returns error? {
-        return;
-    }
-
-    isolated function setServerSide(boolean b) returns error? {
-        return;
+    isolated function setServerSide(boolean b)  {
+        setServerSideUtil(self.messageContextHandle, b);
     }
 
     isolated function toString() returns string {
-        return "";
+        return toStringUtil(self.messageContextHandle);
     }
 
-    // isolated function setContextEntries(map<any> entries) returns error? {
-    //     handle result = setContextEntriesUtil(self.messageContextHandle, entries);
-    //     return;
-    // }
 }
