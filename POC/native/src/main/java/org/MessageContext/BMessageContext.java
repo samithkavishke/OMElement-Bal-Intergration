@@ -29,14 +29,12 @@ public class BMessageContext  {
         return new Axis2MessageContext(axisMsgCtx, synCfg, synEnv);
     }
 
-    // NOTE: this is not in use.
     public static void setEnvelopeUtil(Axis2MessageContext messageContext,BXml bXml) throws AxisFault{
 
         SOAPEnvelope soapEnvelope = BXmltoSoapEnvelopeConverter.toSOAPEnvelope(bXml);
         messageContext.setEnvelope(soapEnvelope);
     }
 
-    //NOTE: this is not in use.
     public static BXml getEnvelopeUtil(Axis2MessageContext messageContext) {
         if (messageContext.getEnvelope() == null) {
             return new XmlItem(new QName(""));
