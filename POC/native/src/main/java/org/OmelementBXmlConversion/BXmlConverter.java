@@ -95,7 +95,7 @@ public class BXmlConverter {
             return rootElement;
     }
 
-    public static OMElement addChildrenElements(OMElement rootElement, BXml bXml) {
+    static void addChildrenElements(OMElement rootElement, BXml bXml) {
         BXmlItem xmlItem = (BXmlItem) bXml;
         for (int i = 0; i < xmlItem.children().size(); i++) {
             BXml child = xmlItem.children().getItem(i);
@@ -121,8 +121,6 @@ public class BXmlConverter {
                     break;
             }
         }
-        return rootElement;
-
     }
 }
 

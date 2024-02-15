@@ -57,22 +57,13 @@ public function main() {
 //     io:println(messageContext.isDoingGET());
 
 
-    MessageContext mc = new MessageContextImpl();
+MessageContext mc = new MessageContextImpl();
+    xml inputXml = xml `<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"><soapenv:Header/><soapenv:Body><m0:getQuote xmlns:m0="http://services.samples"><m0:request><m0:symbol>IBM</m0:symbol></m0:request></m0:getQuote></soapenv:Body></soapenv:Envelope>`;
 
-    io:println("hello world!");
-    error? Error = mc.setEnvelope(
-        xml `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-        <soapenv:Header/>
-        <soapenv:Body>
-            <m0:getQuote xmlns:m0="http://services.samples">
-                <m0:request>
-                    <m0:symbol>IBM</m0:symbol>
-                </m0:request> 
-            </m0:getQuote>
-        </soapenv:Body>
-        </soapenv:Envelope>`);
-
-    if (Error != null) {
+    error? Error = mc.setEnvelope(inputXml);
+    if(Error != null) {
         io:println("Error occurred while setting the envelope");
     }
+
+    io:print(mc.isSOAP11());
 }

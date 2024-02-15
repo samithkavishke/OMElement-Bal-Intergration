@@ -177,10 +177,6 @@ public class BMessageContext  {
         return messageContext.isPaused();
     }
 
-    //TODO: find how to set the below
-    public static void setSOAP11Util(Axis2MessageContext messageContext, Boolean soap11) {
-    }
-
     public static Boolean getSOAP11Util(Axis2MessageContext messageContext) {
         return messageContext.isSOAP11();
     }

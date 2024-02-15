@@ -135,11 +135,6 @@ isolated function setPausedUtil(handle messageContext,boolean isPaused) = @java:
     name: "setPausedUtil"
 } external;
 
-isolated function setSOAP11Util(handle messageContext,boolean isSoap11) = @java:Method {
-    'class: "org.MessageContext.BMessageContext",
-    name: "setSOAP11Util"
-} external;
-
 isolated function getDoingGETUtil(handle messageContext) returns boolean = @java:Method {
     'class: "org.MessageContext.BMessageContext",
     name: "getDoingGETUtil"
