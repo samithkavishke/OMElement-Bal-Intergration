@@ -1,4 +1,4 @@
-package org.MessageContext;
+package org.OmelementBXmlConversion;
 
 import io.ballerina.runtime.api.types.XmlNodeType;
 import io.ballerina.runtime.api.values.BMap;
@@ -19,18 +19,6 @@ public class BXmltoSoapEnvelopeConverter {
 
     private static final OMFactory factory = OMAbstractFactory.getOMFactory();
 
-    private static Pair<String, String> extractNamespace(String value) {
-        // {https://example.com}attr1 -> {https://example.com} attr1
-        if (value.startsWith("{")) {
-            int index = value.indexOf("}");
-            String ns = value.substring(1, index);
-            String localName = value.substring(index + 1);
-            return Pair.of(ns, localName);
-        }
-
-        return Pair.of("", value);
-    }
-
     public static SOAPEnvelope toSOAPEnvelope(BXml bXml) {
 
         BXmlItem xmlItem = (BXmlItem) bXml;
@@ -43,7 +31,7 @@ public class BXmltoSoapEnvelopeConverter {
         for (Map.Entry<BString, BString> attribute : bMap.entrySet()) {
             if (!attribute.getKey().getValue().startsWith(BXmlItem.XMLNS_NS_URI_PREFIX)) {
                 //if this is a namespace
-                Pair<String, String> pair = extractNamespace(attribute.getKey().getValue());
+                Pair<String, String> pair = BXmlConverter.extractNamespace(attribute.getKey().getValue());
                 OMAttribute omattribute = factory.createOMAttribute(pair.getRight(), namespace, attribute.getValue().getValue());
                 soapEnvelope.addAttribute(omattribute);
             }

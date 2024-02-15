@@ -1,5 +1,9 @@
 public type MessageContext object {
 
+    isolated function get() returns handle;
+
+    isolated function set(handle messageContextHandle);
+
     isolated function getEnvelope() returns xml;
 
     isolated function getLocalEntry(string key) returns any;
@@ -36,44 +40,37 @@ public type MessageContext object {
 
     isolated function isSOAP11() returns boolean;
 
+    isolated function setWSAAction(string action);
+
+    isolated function setWSAMessageID(string id);
+
     isolated function setDoingGET(boolean b) ;
 
-    isolated function setDoingMTOM(boolean b) returns error?;
+    isolated function setDoingMTOM(boolean b);
 
-    isolated function setDoingPOX(boolean b) returns error?;
+    isolated function setDoingPOX(boolean b);
 
-    isolated function setDoingSWA(boolean b) returns error?;
+    isolated function setDoingSWA(boolean b);
 
     isolated function setEnvelope(xml envelope) returns error?;
 
-    isolated function setFaultResponse(boolean b) returns error?;
+    isolated function setFaultResponse(boolean b);
 
-    isolated function setMessageID(string id) returns error?;
+    isolated function setMessageID(string id);
 
-    isolated function setPaused(boolean b) returns error?;
+    isolated function setPaused(boolean b);
 
-    isolated function setProperty(string key, any value) returns error?;
+    isolated function setProperty(string key, any value);
 
-    isolated function setResponse(boolean b) returns error?;
+    isolated function setResponse(boolean b);
 
-    isolated function setServerSide(boolean b) returns error?;
+    isolated function setServerSide(boolean b);
 
-    isolated function setContextEntries(map<any> entries) returns error?;
+    isolated function setContextEntries(map<any> entries);
 
-    isolated function setSoapAction(string action) returns error?;
+    isolated function setSoapAction(string action);
 
     isolated function toString() returns string;
-// getProperties
-// getEnvelope()
-//	getLocalEntry(String key)
-//	getMessageID()
-//getProperty(String key) --- getPropertyKeySet()
-//getSoapAction()
-//getWSAAction()
-//	getWSAMessageID()
-// all is
-//setDoingGET(boolean b)
-//setEnvelope(org.apache.axio-> xml
-// all sets
+
 };
 

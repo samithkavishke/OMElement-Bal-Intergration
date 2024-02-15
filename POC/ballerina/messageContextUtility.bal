@@ -1,8 +1,12 @@
 import ballerina/jballerina.java; 
 
-isolated function initalizeMessageContext() returns handle = @java:Constructor {
-    'class: "org.MessageContext.BMessageContext"} external;
+// isolated function initalizeMessageContext() returns handle = @java:Constructor {
+//     'class: "org.MessageContext.BMessageContext"} external;
 
+isolated function createMessageContextUtil() returns handle = @java:Method {
+    'class: "org.MessageContext.BMessageContext",
+    name: "createMessageContextUtil"
+} external;
 
 isolated function setEnvelopeUtil(handle messageContext,xml envelope) returns error? = @java:Method {
     'class: "org.MessageContext.BMessageContext",
@@ -12,7 +16,6 @@ isolated function setEnvelopeUtil(handle messageContext,xml envelope) returns er
 isolated function getEnvelopeUtil(handle messageContext) returns xml = @java:Method {
     'class: "org.MessageContext.BMessageContext",
     name: "getEnvelopeUtil"
-    // paramTypes: ["org.apache.synapse.core.axis2.Axis2MessageContext"]
 } external;
 
 isolated function getOMElementUtil() returns handle = @java:Method {

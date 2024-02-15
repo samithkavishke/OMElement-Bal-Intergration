@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="omelement-intergration-poc.main" target="17" />
+      <module name="omelement-intergration-poc.test" target="17" />
       <module name="POC" target="17" />
       <module name="POC.main" target="17" />
       <module name="POC.test" target="17" />

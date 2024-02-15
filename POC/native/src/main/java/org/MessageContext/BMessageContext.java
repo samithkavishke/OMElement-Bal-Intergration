@@ -1,8 +1,10 @@
 package org.MessageContext;
 
+import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.*;
 import io.ballerina.runtime.internal.values.MapValueImpl;
 import io.ballerina.runtime.internal.values.XmlItem;
+import org.OmelementBXmlConversion.BXmltoSoapEnvelopeConverter;
 import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.ConfigurationContext;
@@ -17,27 +19,29 @@ import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.ballerina.runtime.api.utils.StringUtils.fromString;
 import static org.OmelementBXmlConversion.OMElementConverter.toBXml;
-import static org.SOAPElementCreation.BXmltoSoapEnvelopeConverter.toSOAPEnvelope;
 
-public class BMessageContext extends Axis2MessageContext {
-    public BMessageContext(MessageContext axisMsgCtx, SynapseConfiguration synCfg, SynapseEnvironment synEnv) {
-        super(axisMsgCtx, synCfg, synEnv);
+public class BMessageContext  {
+    public static Axis2MessageContext createMessageContextUtil() {
+        MessageContext axisMsgCtx = new org.apache.axis2.context.MessageContext();
+        SynapseConfiguration synCfg = new SynapseConfiguration();
+        SynapseEnvironment synEnv = new Axis2SynapseEnvironment(new ConfigurationContext(new AxisConfiguration()), synCfg);
+        return new Axis2MessageContext(axisMsgCtx, synCfg, synEnv);
     }
 
-    public BMessageContext(SynapseConfiguration synCfg) {
-        this(new org.apache.axis2.context.MessageContext(),
-                synCfg, new Axis2SynapseEnvironment(new ConfigurationContext(new AxisConfiguration()), synCfg));
-    }
-    public BMessageContext()  {
-        this(new SynapseConfiguration());
-
-    }
-
+    // NOTE: this is not in use.
     public static void setEnvelopeUtil(Axis2MessageContext messageContext,BXml bXml) throws AxisFault{
-        SOAPEnvelope soapEnvelope = toSOAPEnvelope(bXml);
+
+        SOAPEnvelope soapEnvelope = BXmltoSoapEnvelopeConverter.toSOAPEnvelope(bXml);
         messageContext.setEnvelope(soapEnvelope);
+    }
+
+    //NOTE: this is not in use.
+    public static BXml getEnvelopeUtil(Axis2MessageContext messageContext) {
+        if (messageContext.getEnvelope() == null) {
+            return new XmlItem(new QName(""));
+        }
+        return toBXml(messageContext.getEnvelope());
     }
 
     public static BValue getLocalEntryUtil(Axis2MessageContext messageContext,BString key) {
@@ -54,16 +58,8 @@ public class BMessageContext extends Axis2MessageContext {
 
     }
 
-    public static BXml getEnvelopeUtil(Axis2MessageContext messageContext) {
-        if (messageContext.getEnvelope() == null) {
-            //            return new XmlType("");
-            return new XmlItem(new QName(""));
-        }
-        return toBXml(messageContext.getEnvelope());
-    }
-
     public static BString getMessageIDUtil(Axis2MessageContext messageContext) {
-        return fromString(messageContext.getMessageID());
+        return StringUtils.fromString(messageContext.getMessageID());
     }
 
     public static void setMessageIDUtil(Axis2MessageContext messageContext, BString messageID) {
@@ -83,13 +79,13 @@ public class BMessageContext extends Axis2MessageContext {
         Map<String, Object> propertyMap = messageContext.getProperties();
         BMap<BString, BValue> properties = new MapValueImpl<>();
         for (Map.Entry<String, Object> entry : propertyMap.entrySet()) {
-            properties.put(fromString(entry.getKey()), (BValue) entry.getValue());
+            properties.put(StringUtils.fromString(entry.getKey()), (BValue) entry.getValue());
         }
         return properties;
     }
 
     public static BString getSOAPActionUtil(Axis2MessageContext messageContext) {
-        return fromString(messageContext.getSoapAction());
+        return StringUtils.fromString(messageContext.getSoapAction());
     }
 
     public static void setSOAPActionUtil(Axis2MessageContext messageContext, BString soapAction) {
@@ -97,14 +93,14 @@ public class BMessageContext extends Axis2MessageContext {
     }
 
     public static BString getWSAActionUtil(Axis2MessageContext messageContext) {
-        return fromString(messageContext.getWSAAction());
+        return StringUtils.fromString(messageContext.getWSAAction());
     }
     public static void setWSAActionUtil(Axis2MessageContext messageContext, BString wsaAction) {
         messageContext.setWSAAction(wsaAction.getValue());
     }
 
     public static BString getWSAMessageIDUtil(Axis2MessageContext messageContext) {
-        return fromString(messageContext.getWSAMessageID());
+        return StringUtils.fromString(messageContext.getWSAMessageID());
     }
 
     public static void setWSAMessageIDUtil(Axis2MessageContext messageContext, BString wsaMessageID) {
@@ -112,7 +108,7 @@ public class BMessageContext extends Axis2MessageContext {
     }
 
     public static BString toStringUtil(Axis2MessageContext messageContext) {
-        return fromString(messageContext.toString());
+        return StringUtils.fromString(messageContext.toString());
     }
 
     /////////////////////////////////////////////////////////////////////////

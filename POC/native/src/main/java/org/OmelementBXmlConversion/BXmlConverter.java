@@ -15,7 +15,7 @@ public class BXmlConverter {
 
     private static final OMFactory factory = OMAbstractFactory.getOMFactory();
 
-    private static Pair<String, String> extractNamespace(String value) {
+    static Pair<String, String> extractNamespace(String value) {
         // {https://example.com}attr1 -> {https://example.com} attr1
         if (value.startsWith("{")) {
             int index = value.indexOf("}");
@@ -31,6 +31,7 @@ public class BXmlConverter {
         // starts with XmlItem.XMLNS_NS_URI_PREFIX true else false
         return value.startsWith(BXmlItem.XMLNS_NS_URI_PREFIX);
     }
+
 
 
     public static OMElement toOMElement(BXml bXml) {
@@ -65,33 +66,63 @@ public class BXmlConverter {
             }
 
         }
+        addChildrenElements(rootElement, bXml);
 
-            for (int i = 0; i < xmlItem.children().size(); i++) {
-                BXml child = xmlItem.children().getItem(i);
-                switch (child.getNodeType()) {
-                    case ELEMENT:
-                        OMElement childElement = toOMElement(child);
-                        rootElement.addChild(childElement);
-                        break;
-                    case TEXT:
-                        OMText omText = factory.createOMText(rootElement, child.getTextValue());
-                        rootElement.addChild(omText);
-                        break;
-                    case COMMENT:
-                        OMComment omComment = factory.createOMComment(rootElement, child.getTextValue());
-                        rootElement.addChild(omComment);
-                        break;
-                    case PI:
-                        XmlPi xmlPi = (XmlPi) child;
-                        OMProcessingInstruction omProcessingInstruction = factory.createOMProcessingInstruction(null, xmlPi.getTarget(), xmlPi.getData());
-                        rootElement.addChild(omProcessingInstruction);
-                        break;
-                    default:
-                        break;
-                }
-            }
+
+//            for (int i = 0; i < xmlItem.children().size(); i++) {
+//                BXml child = xmlItem.children().getItem(i);
+//                switch (child.getNodeType()) {
+//                    case ELEMENT:
+//                        OMElement childElement = toOMElement(child);
+//                        rootElement.addChild(childElement);
+//                        break;
+//                    case TEXT:
+//                        OMText omText = factory.createOMText(rootElement, child.getTextValue());
+//                        rootElement.addChild(omText);
+//                        break;
+//                    case COMMENT:
+//                        OMComment omComment = factory.createOMComment(rootElement, child.getTextValue());
+//                        rootElement.addChild(omComment);
+//                        break;
+//                    case PI:
+//                        XmlPi xmlPi = (XmlPi) child;
+//                        OMProcessingInstruction omProcessingInstruction = factory.createOMProcessingInstruction(null, xmlPi.getTarget(), xmlPi.getData());
+//                        rootElement.addChild(omProcessingInstruction);
+//                        break;
+//                    default:
+//                        break;
+//                }
             return rootElement;
-        }
+    }
 
+    public static OMElement addChildrenElements(OMElement rootElement, BXml bXml) {
+        BXmlItem xmlItem = (BXmlItem) bXml;
+        for (int i = 0; i < xmlItem.children().size(); i++) {
+            BXml child = xmlItem.children().getItem(i);
+            switch (child.getNodeType()) {
+                case ELEMENT:
+                    OMElement childElement = toOMElement(child);
+                    rootElement.addChild(childElement);
+                    break;
+                case TEXT:
+                    OMText omText = factory.createOMText(rootElement, child.getTextValue());
+                    rootElement.addChild(omText);
+                    break;
+                case COMMENT:
+                    OMComment omComment = factory.createOMComment(rootElement, child.getTextValue());
+                    rootElement.addChild(omComment);
+                    break;
+                case PI:
+                    XmlPi xmlPi = (XmlPi) child;
+                    OMProcessingInstruction omProcessingInstruction = factory.createOMProcessingInstruction(null, xmlPi.getTarget(), xmlPi.getData());
+                    rootElement.addChild(omProcessingInstruction);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return rootElement;
+
+    }
 }
 

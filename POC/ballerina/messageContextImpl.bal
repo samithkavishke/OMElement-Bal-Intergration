@@ -1,4 +1,3 @@
-// import ballerina/io;
 class MessageContextImpl {
     *MessageContext;
 
@@ -6,7 +5,7 @@ class MessageContextImpl {
     private handle messageContextHandle;
 
     isolated function init() {
-        self.messageContextHandle = initalizeMessageContext();
+        self.messageContextHandle = createMessageContextUtil();
     }
     
     isolated function get() returns handle {
@@ -19,6 +18,11 @@ class MessageContextImpl {
 
     isolated function getEnvelope() returns xml {        
         return getEnvelopeUtil(self.messageContextHandle);
+    }
+
+    isolated function setEnvelope(xml envelope) returns error? {
+        error? Error = setEnvelopeUtil(self.messageContextHandle, envelope);
+        return Error;
     }
 
     isolated function setContextEntries(map<any> entries)  {
@@ -125,11 +129,6 @@ class MessageContextImpl {
 
     isolated function setDoingSWA(boolean b)  {
         setDoingSWAUtil(self.messageContextHandle, b);
-    }
-
-    isolated function setEnvelope(xml envelope) returns error? {
-        error? Error = setEnvelopeUtil(self.messageContextHandle, envelope);
-        return Error;
     }
 
     isolated function setFaultResponse(boolean b)  {
