@@ -53,7 +53,6 @@ public class BXmltoSoapEnvelopeConverter {
                     } else {
                         soapBody = soapEnvelope.getBody();
                     }
-//                    BXmlConverter.addChildrenElements(soapBody, child);
                     addElementsToBody(soapBody,childXmlItem);
                 }
             }
@@ -163,24 +162,6 @@ public class BXmltoSoapEnvelopeConverter {
         } else{
             throw new UnsupportedOperationException("SOAP version could not be identified.");
         }
-    }
-
-    public static void main(String[] args) {
-
-        setSoapFactory(SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
-        SOAPEnvelope soapEnvelope = soapFactory.getDefaultEnvelope();
-
-        SOAPFault soapFault = soapFactory.createSOAPFault();
-        SOAPFaultCode code = soapFactory.createSOAPFaultCode(soapFault);
-
-        soapFault.setCode(code);
-        soapEnvelope.getBody().addFault(soapFault);
-
-        SOAPFaultReason soapFaultReason = soapFactory.createSOAPFaultReason(soapFault);
-        soapFaultReason.setText("Missing required parameter");
-        soapFault.setReason(soapFaultReason);
-
-        System.out.println(soapEnvelope.toString());
     }
 }
 
