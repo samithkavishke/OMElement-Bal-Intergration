@@ -29,7 +29,7 @@ public class BMessageContext  {
         return new Axis2MessageContext(axisMsgCtx, synCfg, synEnv);
     }
 
-    public static void setEnvelopeUtil(Axis2MessageContext messageContext,BXml bXml) throws AxisFault{
+    public static void setEnvelopeUtil(Axis2MessageContext messageContext,BXml bXml) throws AxisFault, UnsupportedOperationException{
 
         SOAPEnvelope soapEnvelope = BXmltoSoapEnvelopeConverter.toSOAPEnvelope(bXml);
         messageContext.setEnvelope(soapEnvelope);

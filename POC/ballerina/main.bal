@@ -58,9 +58,12 @@ public function main() {
 
 
     MessageContext mc = new MessageContextImpl();
-    xml inputXml = xml `<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelopeas"><soapenv:Header/><soapenv:Body><m0:getQuote xmlns:m0="http://services.samples"><m0:request><m0:symbol>IBM</m0:symbol></m0:request></m0:getQuote></soapenv:Body></soapenv:Envelope>`;
+    // xml inputXml = xml `<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"><soapenv:Header/><soapenv:Body><m0:getQuote xmlns:m0="http://services.samples"><m0:request><m0:symbol>IBM</m0:symbol></m0:request></m0:getQuote></soapenv:Body></soapenv:Envelope>`;
 
-    error? Error = mc.setEnvelope(inputXml);
+    // xml inputXml11 = xml `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault><faultcode/><faultstring>Missing required parameter</faultstring></soapenv:Fault></soapenv:Body></soapenv:Envelope>`;
+    xml inputXml12 = xml `<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"><soapenv:Header/><soapenv:Body><soapenv:Fault><soapenv:Code/><soapenv:Reason>Missing required parameter</soapenv:Reason></soapenv:Fault></soapenv:Body></soapenv:Envelope>`;
+
+    error? Error = mc.setEnvelope(inputXml12);
     if(Error != null) {
         io:println("Error occurred while setting the envelope");
     }
