@@ -38,7 +38,6 @@ public class BXmltoSoapEnvelopeConverter {
         }
 
         //NOTE: SOAP Envelope can only have the following children: Header, Body which are OMElements
-
         for (int i = 0; i < xmlItem.children().size(); i++) {
             BXml child = xmlItem.children().getItem(i);
             if (child.getNodeType() == XmlNodeType.ELEMENT) {
@@ -53,7 +52,6 @@ public class BXmltoSoapEnvelopeConverter {
                     } else {
                         soapBody = soapEnvelope.getBody();
                     }
-//                    BXmlConverter.addChildrenElements(soapBody, child);
                     addElementsToBody(soapBody,childXmlItem);
                 }
             }
@@ -163,24 +161,6 @@ public class BXmltoSoapEnvelopeConverter {
         } else{
             throw new UnsupportedOperationException("SOAP version could not be identified.");
         }
-    }
-
-    public static void main(String[] args) {
-
-        setSoapFactory(SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
-        SOAPEnvelope soapEnvelope = soapFactory.getDefaultEnvelope();
-
-        SOAPFault soapFault = soapFactory.createSOAPFault();
-        SOAPFaultCode code = soapFactory.createSOAPFaultCode(soapFault);
-
-        soapFault.setCode(code);
-        soapEnvelope.getBody().addFault(soapFault);
-
-        SOAPFaultReason soapFaultReason = soapFactory.createSOAPFaultReason(soapFault);
-        soapFaultReason.setText("Missing required parameter");
-        soapFault.setReason(soapFaultReason);
-
-        System.out.println(soapEnvelope.toString());
     }
 }
 
