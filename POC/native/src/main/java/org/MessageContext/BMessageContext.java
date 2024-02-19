@@ -1,7 +1,10 @@
 package org.MessageContext;
 
 import io.ballerina.runtime.api.utils.StringUtils;
-import io.ballerina.runtime.api.values.*;
+import io.ballerina.runtime.api.values.BMap;
+import io.ballerina.runtime.api.values.BString;
+import io.ballerina.runtime.api.values.BValue;
+import io.ballerina.runtime.api.values.BXml;
 import io.ballerina.runtime.internal.values.MapValueImpl;
 import io.ballerina.runtime.internal.values.XmlItem;
 import org.OmelementBXmlConversion.BXmltoSoapEnvelopeConverter;
@@ -20,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.OmelementBXmlConversion.OMElementConverter.toBXml;
+
+
 
 public class BMessageContext  {
     public static Axis2MessageContext createMessageContextUtil() {
@@ -42,11 +47,23 @@ public class BMessageContext  {
         return toBXml(messageContext.getEnvelope());
     }
 
-    public static BValue getLocalEntryUtil(Axis2MessageContext messageContext,BString key) {
-        return (BValue) messageContext.getContextEntries().get(key.getValue());
+    public static <T> T getLocalEntryUtil(Axis2MessageContext messageContext, BString key) {
+        switch (messageContext.getContextEntries().get(key.getValue()).getClass().getSimpleName()) {
+            case "Boolean":
+                return (T)(Boolean) messageContext.getContextEntries().get((key.getValue()));
+            case "Integer":
+                return (T)(Long) messageContext.getContextEntries().get((key.getValue()));
+            case "Long":
+                return (T)(Long) messageContext.getContextEntries().get(key.getValue());
+            case "Double":
+                return (T)(Double) messageContext.getContextEntries().get((key.getValue()));
+            case "Float":
+                return (T)(Double) messageContext.getContextEntries().get((key.getValue()));
+        }
+        return (T)(BValue) messageContext.getContextEntries().get((key.getValue()));
     }
 
-    public static void setContextEntriesUtil(Axis2MessageContext messageContext, BMap<BString, BObject> entries) {
+    public static void setContextEntriesUtil(Axis2MessageContext messageContext, BMap<BString, BValue> entries) {
         // initialize a map
         Map<String, Object> entryMap = new HashMap<>();
         for (BString key : entries.getKeys()) {

@@ -68,5 +68,15 @@ public function main() {
         io:println("Error occurred while setting the envelope");
     }
 
+    map<any> properties = {"key1": 1, "key2": "value2", "key3":2.3};
+
+    mc.setContextEntries(properties);
+    // io:print(1 is any);
+
+    io:println(mc.getLocalEntry("key3"));
+    // io:println(properties);
     io:print(mc.isSOAP11());
+
+    map<int> map1 = {"a": 2, "b": 4};
+    // CreateRecordFromMap(map1);
 }
