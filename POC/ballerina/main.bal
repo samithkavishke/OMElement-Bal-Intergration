@@ -78,5 +78,9 @@ public function main() {
     io:print(mc.isSOAP11());
 
     map<int> map1 = {"a": 2, "b": 4};
+
+    mc.setProperty("key1", 3);
     // CreateRecordFromMap(map1);
+    any a = mc.getProperty("key1");
+    io:println(a);
 }

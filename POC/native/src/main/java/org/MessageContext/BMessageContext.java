@@ -81,14 +81,26 @@ public class BMessageContext  {
         messageContext.setMessageID(messageID.getValue());
     }
 
-    public static void setPropertyUtil(Axis2MessageContext messageContext, BString key, BValue value) {
+    public static void setPropertyUtil(Axis2MessageContext messageContext, BString key, Object value) {
         messageContext.setProperty(key.getValue(), value);
-
     }
 
-    public static BValue getPropertyUtil(Axis2MessageContext messageContext, BString key) {
-        return (BValue) messageContext.getProperty(key.getValue());
+    public static <T> T getPropertyUtil(Axis2MessageContext messageContext, BString key) {
+        switch (messageContext.getContextEntries().get(key.getValue()).getClass().getSimpleName()) {
+            case "Boolean":
+                return (T)(Boolean) messageContext.getProperties().get((key.getValue()));
+            case "Integer":
+                return (T)(Long) messageContext.getProperties().get((key.getValue()));
+            case "Long":
+                return (T)(Long) messageContext.getProperties().get(key.getValue());
+            case "Double":
+                return (T)(Double) messageContext.getProperties().get((key.getValue()));
+            case "Float":
+                return (T)(Double) messageContext.getProperties().get((key.getValue()));
+        }
+        return (T)(BValue) messageContext.getProperties().get((key.getValue()));
     }
+
 
     public static BMap<BString, BValue> getPropertiesUtil(Axis2MessageContext messageContext) {
         Map<String, Object> propertyMap = messageContext.getProperties();
