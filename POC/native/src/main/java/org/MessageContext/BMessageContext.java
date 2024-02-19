@@ -70,7 +70,6 @@ public class BMessageContext  {
             entryMap.put(key.getValue(), entries.get(key));
         }
         messageContext.setContextEntries(entryMap);
-
     }
 
     public static BString getMessageIDUtil(Axis2MessageContext messageContext) {
@@ -81,12 +80,12 @@ public class BMessageContext  {
         messageContext.setMessageID(messageID.getValue());
     }
 
-    public static void setPropertyUtil(Axis2MessageContext messageContext, BString key, Object value) {
+    public static <T> void setPropertyUtil(Axis2MessageContext messageContext, BString key, T value) {
         messageContext.setProperty(key.getValue(), value);
     }
 
     public static <T> T getPropertyUtil(Axis2MessageContext messageContext, BString key) {
-        switch (messageContext.getContextEntries().get(key.getValue()).getClass().getSimpleName()) {
+        switch (messageContext.getProperties().get(key.getValue()).getClass().getSimpleName()) {
             case "Boolean":
                 return (T)(Boolean) messageContext.getProperties().get((key.getValue()));
             case "Integer":
